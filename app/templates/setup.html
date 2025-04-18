@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ title }}</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f0f4f8;
+            color: #333;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            flex-grow: 1;
+        }
+        
+        header {
+            background-color: #2c3e50;
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+        
+        nav {
+            background-color: #34495e;
+            padding: 10px;
+            text-align: center;
+        }
+        
+        nav a {
+            color: white;
+            text-decoration: none;
+            padding: 10px 15px;
+            margin: 0 5px;
+            display: inline-block;
+        }
+        
+        nav a:hover {
+            background-color: #455a64;
+            border-radius: 4px;
+        }
+        
+        h1, h2, h3 {
+            color: #2c3e50;
+            margin-top: 0;
+        }
+        
+        .button {
+            display: inline-block;
+            background-color: #3498db;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            text-decoration: none;
+            font-size: 14px;
+            transition: background-color 0.3s;
+        }
+        
+        .button:hover {
+            background-color: #2980b9;
+        }
+        
+        .button-success {
+            background-color: #2ecc71;
+        }
+        
+        .button-success:hover {
+            background-color: #27ae60;
+        }
+        
+        .card {
+            background-color: #fff;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        .card-title {
+            margin-top: 0;
+            margin-bottom: 15px;
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 10px;
+        }
+        
+        .setup-form {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        
+        input[type="text"],
+        input[type="url"],
+        textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 14px;
+            box-sizing: border-box;
+        }
+        
+        .help-text {
+            margin-top: 5px;
+            font-size: 12px;
+            color: #7f8c8d;
+        }
+        
+        .alert {
+            padding: 15px;
+            border-radius: 4px;
+            margin-bottom: 20px;
+        }
+        
+        .alert-success {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        
+        .alert-danger {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        
+        .alert-warning {
+            background-color: #fff3cd;
+            color: #856404;
+            border: 1px solid #ffeeba;
+        }
+        
+        .alert-info {
+            background-color: #d1ecf1;
+            color: #0c5460;
+            border: 1px solid #bee5eb;
+        }
+        
+        .setup-steps {
+            margin-bottom: 30px;
+        }
+        
+        .step {
+            background-color: #fff;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 15px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            display: flex;
+            align-items: flex-start;
+        }
+        
+        .step-number {
+            background-color: #3498db;
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-right: 15px;
+            flex-shrink: 0;
+        }
+        
+        .step-content {
+            flex-grow: 1;
+        }
+        
+        .step-title {
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        
+        .step-description {
+            font-size: 14px;
+            color: #5a5a5a;
+        }
+        
+        .completed-step .step-number {
+            background-color: #2ecc71;
+        }
+        
+        .code-block {
+            background-color: #f8f9fa;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            padding: 10px;
+            font-family: monospace;
+            overflow-x: auto;
+            margin-bottom: 15px;
+        }
+        
+        .copy-btn {
+            background-color: #f8f9fa;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            padding: 5px 10px;
+            font-size: 12px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        
+        .copy-btn:hover {
+            background-color: #e9ecef;
+        }
+        
+        footer {
+            background-color: #2c3e50;
+            color: white;
+            text-align: center;
+            padding: 20px;
+            margin-top: auto;
+        }
+        
+        @media (max-width: 768px) {
+            .step {
+                flex-direction: column;
+            }
+            
+            .step-number {
+                margin-bottom: 10px;
+            }
+            
+            nav a {
+                display: block;
+                margin: 5px 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Email Processor Setup</h1>
+        <p>Configure the email processor to work with FakeMail</p>
+    </header>
+    
+    <nav>
+        <a href="/">Home</a>
+        <a href="/dashboard">Dashboard</a>
+        <a href="/emails">Emails</a>
+        <a href="/setup" class="active">Setup</a>
+        <a href="/simulator">FakeMail Simulator</a>
+    </nav>
+    
+    <div class="container">
+        <div class="card">
+            <h2 class="card-title">Setup Process</h2>
+            <p>Follow these steps to set up the email processor to work with FakeMail:</p>
+            
+            <div class="setup-steps">
+                <div class="step" id="step-1">
+                    <div class="step-number">1</div>
+                    <div class="step-content">
+                        <div class="step-title">Create a Webhook URL with Ngrok</div>
+                        <div class="step-description">
+                            <p>To expose your local webhook endpoint to FakeMail, you need to create a publicly accessible URL using Ngrok.</p>
+                            <ol>
+                                <li>Install Ngrok if you haven't already</li>
+                                <li>Run the following command in your terminal:</li>
+                            </ol>
+                            <div class="code-block">
+                                ngrok http 8000
+                            </div>
+                            <button class="copy-btn" data-text="ngrok http 8000">Copy</button>
+                            <p>This will create a tunnel to your local server. Copy the https URL provided by Ngrok.</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="step" id="step-2">
+                    <div class="step-number">2</div>
+                    <div class="step-content">
+                        <div class="step-title">Configure the Webhook URL</div>
+                        <div class="step-description">
+                            <p>Enter your Ngrok URL + "/webhook" in the form below:</p>
+                            <div class="form-group">
+                                <label for="webhook-url">Webhook URL</label>
+                                <input type="url" id="webhook-url" placeholder="https://example.ngrok.io/webhook">
+                                <div class="help-text">This is the URL that FakeMail will use to notify your application when new emails arrive.</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="step" id="step-3">
+                    <div class="step-number">3</div>
+                    <div class="step-content">
+                        <div class="step-title">Set Up the Processor</div>
+                        <div class="step-description">
+                            <p>Click the button below to set up the email processor:</p>
+                            <button id="setup-button" class="button button-success">Set Up Processor</button>
+                            <div id="setup-result"></div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="step" id="step-4">
+                    <div class="step-number">4</div>
+                    <div class="step-content">
+                        <div class="step-title">Test the Integration</div>
+                        <div class="step-description">
+                            <p>To test that everything is working correctly:</p>
+                            <ol>
+                                <li>Go to the <a href="/simulator">FakeMail Simulator</a></li>
+                                <li>Send a test email</li>
+                                <li>Check the <a href="/emails">Processed Emails</a> page to see if the email was processed</li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="card">
+            <h2 class="card-title">Troubleshooting</h2>
+            <h3>Common Issues</h3>
+            <ul>
+                <li><strong>Webhook not receiving notifications:</strong> Ensure your Ngrok tunnel is active and the URL is correct.</li>
+                <li><strong>Emails not being processed:</strong> Check the system logs for errors.</li>
+                <li><strong>Classification not working:</strong> Ensure the FakeMail API URL is correctly configured.</li>
+            </ul>
+            
+            <h3>System Status</h3>
+            <button id="check-status" class="button">Check System Status</button>
+            <div id="status-result" style="margin-top: 10px;"></div>
+        </div>
+    </div>
+    
+    <footer>
+        <p>Email Processor - A microservice for processing emails from FakeMail</p>
+    </footer>
+    
+    <script>
+        // Copy button functionality
+        document.querySelectorAll('.copy-btn').forEach(button => {
+            button.addEventListener('click', () => {
+                const text = button.getAttribute('data-text');
+                navigator.clipboard.writeText(text).then(() => {
+                    const originalText = button.textContent;
+                    button.textContent = 'Copied!';
+                    setTimeout(() => {
+                        button.textContent = originalText;
+                    }, 2000);
+                });
+            });
+        });
+        
+        // Setup button functionality
+        document.getElementById('setup-button').addEventListener('click', async () => {
+            const webhookUrl = document.getElementById('webhook-url').value.trim();
+            
+            if (!webhookUrl) {
+                document.getElementById('setup-result').innerHTML = `
+                    <div class="alert alert-warning">
+                        Please enter a webhook URL.
+                    </div>
+                `;
+                return;
+            }
+            
+            if (!webhookUrl.startsWith('http')) {
+                document.getElementById('setup-result').innerHTML = `
+                    <div class="alert alert-warning">
+                        Please enter a valid URL starting with http:// or https://
+                    </div>
+                `;
+                return;
+            }
+            
+            try {
+                document.getElementById('setup-result').innerHTML = `
+                    <div class="alert alert-info">
+                        Setting up the processor...
+                    </div>
+                `;
+                
+                const response = await fetch('/setup', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ webhook_url: webhookUrl })
+                });
+                
+                const data = await response.json();
+                
+                if (data.status === 'ok') {
+                    document.getElementById('setup-result').innerHTML = `
+                        <div class="alert alert-success">
+                            <p><strong>Setup successful!</strong></p>
+                            <p>Initial History ID: ${data.initial_history_id}</p>
+                            <p>The email processor is now set up and ready to receive webhooks from FakeMail.</p>
+                        </div>
+                    `;
+                    
+                    // Mark step 3 as completed
+                    document.getElementById('step-3').classList.add('completed-step');
+                } else {
+                    document.getElementById('setup-result').innerHTML = `
+                        <div class="alert alert-danger">
+                            <p><strong>Setup failed:</strong> ${data.message}</p>
+                        </div>
+                    `;
+                }
+            } catch (error) {
+                console.error('Error setting up processor:', error);
+                document.getElementById('setup-result').innerHTML = `
+                    <div class="alert alert-danger">
+                        <p><strong>Error:</strong> Failed to set up the processor. Please try again.</p>
+                    </div>
+                `;
+            }
+        });
+        
+        // Check status button functionality
+        document.getElementById('check-status').addEventListener('click', async () => {
+            try {
+                const response = await fetch('/health');
+                const data = await response.json();
+                
+                let statusClass = 'alert-success';
+                if (data.status === 'degraded') {
+                    statusClass = 'alert-warning';
+                } else if (data.status === 'unhealthy') {
+                    statusClass = 'alert-danger';
+                }
+                
+                document.getElementById('status-result').innerHTML = `
+                    <div class="alert ${statusClass}">
+                        <p><strong>Status:</strong> ${data.status}</p>
+                        <p><strong>Redis:</strong> ${data.components.redis}</p>
+                        <p><strong>Processor:</strong> ${data.components.processor}</p>
+                        <p><strong>Uptime:</strong> ${data.metrics.uptime_seconds} seconds</p>
+                    </div>
+                `;
+            } catch (error) {
+                console.error('Error checking status:', error);
+                document.getElementById('status-result').innerHTML = `
+                    <div class="alert alert-danger">
+                        <p><strong>Error:</strong> Failed to check system status. Please try again.</p>
+                    </div>
+                `;
+            }
+        });
+    </script>
+</body>
+</html>

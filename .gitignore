@@ -1,0 +1,56 @@
+# Python cache files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual environments
+venv/
+env/
+ENV/
+
+# Distribution / packaging
+dist/
+build/
+*.egg-info/
+
+# Database
+*.db
+*.sqlite3
+
+# Local configuration
+.env
+.env.local
+
+# Logs
+logs/
+*.log
+
+# IDE specific files
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# OS specific files
+.DS_Store
+Thumbs.db
+.aider*
+
+# Data directories and files
+data/
+!data/.gitkeep
+
+# Large model files
+*.joblib
+*.pkl
+*.h5
+*.model
+*.bin
+
+# Downloaded datasets
+*.tar.bz2
+*.tar.gz
+*.zip
+
+# Generated results that are too large
+*_report.html

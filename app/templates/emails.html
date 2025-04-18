@@ -1,0 +1,678 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ title }}</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f0f4f8;
+            color: #333;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            flex-grow: 1;
+        }
+        
+        header {
+            background-color: #2c3e50;
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+        
+        nav {
+            background-color: #34495e;
+            padding: 10px;
+            text-align: center;
+        }
+        
+        nav a {
+            color: white;
+            text-decoration: none;
+            padding: 10px 15px;
+            margin: 0 5px;
+            display: inline-block;
+        }
+        
+        nav a:hover {
+            background-color: #455a64;
+            border-radius: 4px;
+        }
+        
+        h1, h2, h3 {
+            color: #2c3e50;
+            margin-top: 0;
+        }
+        
+        .button {
+            display: inline-block;
+            background-color: #3498db;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            text-decoration: none;
+            font-size: 14px;
+            transition: background-color 0.3s;
+        }
+        
+        .button:hover {
+            background-color: #2980b9;
+        }
+        
+        .card {
+            background-color: #fff;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        .card-title {
+            margin-top: 0;
+            margin-bottom: 15px;
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 10px;
+        }
+        
+        .email-filters {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        
+        .filter-item {
+            display: flex;
+            align-items: center;
+        }
+        
+        .filter-item label {
+            margin-right: 5px;
+        }
+        
+        .filter-item select,
+        .filter-item input {
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        
+        .email-list {
+            margin-bottom: 20px;
+        }
+        
+        .email-item {
+            background-color: #fff;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            padding: 15px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        
+        .email-item:hover {
+            background-color: #f0f4f8;
+        }
+        
+        .email-item.selected {
+            background-color: #ebf5ff;
+            border-left: 4px solid #3498db;
+        }
+        
+        .email-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        
+        .email-subject {
+            font-weight: bold;
+            font-size: 16px;
+        }
+        
+        .email-meta {
+            font-size: 14px;
+            color: #7f8c8d;
+        }
+        
+        .email-preview {
+            color: #7f8c8d;
+            font-size: 14px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        
+        .badge {
+            display: inline-block;
+            padding: 3px 8px;
+            border-radius: 10px;
+            font-size: 12px;
+            font-weight: bold;
+            margin-left: 10px;
+        }
+        
+        .badge-intro {
+            background-color: #3498db;
+            color: white;
+        }
+        
+        .badge-promotion {
+            background-color: #f39c12;
+            color: white;
+        }
+        
+        .badge-meeting {
+            background-color: #2ecc71;
+            color: white;
+        }
+        
+        .badge-unknown {
+            background-color: #95a5a6;
+            color: white;
+        }
+        
+        .email-detail {
+            background-color: #fff;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            display: none;
+        }
+        
+        .detail-header {
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #ddd;
+        }
+        
+        .detail-subject {
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        
+        .detail-meta {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            color: #7f8c8d;
+            font-size: 14px;
+        }
+        
+        .detail-body {
+            white-space: pre-line;
+            line-height: 1.6;
+        }
+        
+        .detail-classification {
+            margin-top: 20px;
+            padding-top: 15px;
+            border-top: 1px solid #ddd;
+        }
+        
+        .detail-confidence {
+            margin-top: 10px;
+            height: 20px;
+            background-color: #f0f4f8;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+        
+        .confidence-bar {
+            height: 100%;
+            background-color: #3498db;
+        }
+        
+        .pagination {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+        }
+        
+        .pagination-item {
+            margin: 0 5px;
+            width: 30px;
+            height: 30px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        
+        .pagination-item:hover {
+            background-color: #f0f4f8;
+        }
+        
+        .pagination-item.active {
+            background-color: #3498db;
+            color: white;
+        }
+        
+        .no-emails {
+            text-align: center;
+            padding: 30px;
+            color: #7f8c8d;
+        }
+        
+        footer {
+            background-color: #2c3e50;
+            color: white;
+            text-align: center;
+            padding: 20px;
+            margin-top: auto;
+        }
+        
+        @media (max-width: 768px) {
+            .email-filters {
+                flex-direction: column;
+            }
+            
+            .filter-item {
+                width: 100%;
+            }
+            
+            .email-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .email-meta {
+                margin-top: 5px;
+            }
+            
+            nav a {
+                display: block;
+                margin: 5px 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Processed Emails</h1>
+        <p>View and analyze emails classified by the system</p>
+    </header>
+    
+    <nav>
+        <a href="/">Home</a>
+        <a href="/dashboard">Dashboard</a>
+        <a href="/emails" class="active">Emails</a>
+        <a href="/setup">Setup</a>
+        <a href="/simulator">FakeMail Simulator</a>
+    </nav>
+    
+    <div class="container">
+        <section class="card">
+            <h2 class="card-title">Email Filters</h2>
+            <div class="email-filters">
+                <div class="filter-item">
+                    <label for="classification-filter">Classification:</label>
+                    <select id="classification-filter">
+                        <option value="all">All</option>
+                        <option value="intro">Intro</option>
+                        <option value="promotion">Promotion</option>
+                        <option value="meeting">Meeting</option>
+                        <option value="unknown">Unknown</option>
+                    </select>
+                </div>
+                
+                <div class="filter-item">
+                    <label for="confidence-filter">Min Confidence:</label>
+                    <select id="confidence-filter">
+                        <option value="0">Any</option>
+                        <option value="0.6">60%</option>
+                        <option value="0.7">70%</option>
+                        <option value="0.8">80%</option>
+                        <option value="0.9">90%</option>
+                    </select>
+                </div>
+                
+                <div class="filter-item">
+                    <label for="date-filter">Date Range:</label>
+                    <select id="date-filter">
+                        <option value="all">All Time</option>
+                        <option value="today">Today</option>
+                        <option value="yesterday">Yesterday</option>
+                        <option value="week">This Week</option>
+                        <option value="month">This Month</option>
+                    </select>
+                </div>
+                
+                <div class="filter-item">
+                    <button id="apply-filters" class="button">Apply Filters</button>
+                    <button id="reset-filters" class="button" style="margin-left: 10px;">Reset</button>
+                </div>
+            </div>
+        </section>
+        
+        <div class="email-list" id="email-list">
+            <!-- Email items will be inserted here dynamically -->
+            <div class="no-emails">
+                <p>Loading emails...</p>
+            </div>
+        </div>
+        
+        <div class="email-detail" id="email-detail">
+            <div class="detail-header">
+                <div class="detail-subject" id="detail-subject"></div>
+                <div class="detail-meta">
+                    <div><strong>Email ID:</strong> <span id="detail-id"></span></div>
+                    <div><strong>Processed At:</strong> <span id="detail-time"></span></div>
+                    <div><strong>Processor:</strong> <span id="detail-processor"></span></div>
+                </div>
+            </div>
+            
+            <div class="detail-body" id="detail-body"></div>
+            
+            <div class="detail-classification">
+                <div><strong>Classification:</strong> <span id="detail-classification"></span></div>
+                <div><strong>Confidence:</strong> <span id="detail-confidence"></span></div>
+                <div class="detail-confidence">
+                    <div class="confidence-bar" id="confidence-bar"></div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="pagination" id="pagination">
+            <!-- Pagination will be inserted here dynamically -->
+        </div>
+    </div>
+    
+    <footer>
+        <p>Email Processor - A microservice for processing emails from FakeMail</p>
+    </footer>
+    
+    <script>
+        // Global state
+        let currentPage = 1;
+        const itemsPerPage = 10;
+        let allEmails = [];
+        let filteredEmails = [];
+        
+        // Format date
+        function formatDate(dateString) {
+            const date = new Date(dateString);
+            return date.toLocaleString();
+        }
+        
+        // Get badge class based on classification
+        function getBadgeClass(classification) {
+            switch (classification.toLowerCase()) {
+                case 'intro': return 'badge-intro';
+                case 'promotion': return 'badge-promotion';
+                case 'meeting': return 'badge-meeting';
+                default: return 'badge-unknown';
+            }
+        }
+        
+        // Load processed emails
+        async function loadEmails() {
+            try {
+                // Make API request to get all processed emails
+                // In a real app, this would be paginated from the server
+                const response = await fetch('/results?include_content=true');
+                if (!response.ok) throw new Error('Failed to load emails');
+                
+                const data = await response.json();
+                allEmails = data.emails || [];
+                
+                // Apply initial filtering
+                applyFilters();
+            } catch (error) {
+                console.error('Error loading emails:', error);
+                document.getElementById('email-list').innerHTML = `
+                    <div class="no-emails">
+                        <p>Error loading emails. Please try again later.</p>
+                    </div>
+                `;
+            }
+        }
+        
+        // Apply filters to emails
+        function applyFilters() {
+            const classificationFilter = document.getElementById('classification-filter').value;
+            const confidenceFilter = parseFloat(document.getElementById('confidence-filter').value);
+            const dateFilter = document.getElementById('date-filter').value;
+            
+            // Filter emails based on selected criteria
+            filteredEmails = allEmails.filter(email => {
+                // Classification filter
+                if (classificationFilter !== 'all' && email.classification !== classificationFilter) {
+                    return false;
+                }
+                
+                // Confidence filter
+                if (email.confidence < confidenceFilter) {
+                    return false;
+                }
+                
+                // Date filter
+                if (dateFilter !== 'all') {
+                    const emailDate = new Date(email.processed_at);
+                    const today = new Date();
+                    today.setHours(0, 0, 0, 0);
+                    
+                    if (dateFilter === 'today') {
+                        const tomorrow = new Date(today);
+                        tomorrow.setDate(tomorrow.getDate() + 1);
+                        if (emailDate < today || emailDate >= tomorrow) {
+                            return false;
+                        }
+                    } else if (dateFilter === 'yesterday') {
+                        const yesterday = new Date(today);
+                        yesterday.setDate(yesterday.getDate() - 1);
+                        if (emailDate < yesterday || emailDate >= today) {
+                            return false;
+                        }
+                    } else if (dateFilter === 'week') {
+                        const weekStart = new Date(today);
+                        weekStart.setDate(weekStart.getDate() - weekStart.getDay());
+                        if (emailDate < weekStart) {
+                            return false;
+                        }
+                    } else if (dateFilter === 'month') {
+                        const monthStart = new Date(today.getFullYear(), today.getMonth(), 1);
+                        if (emailDate < monthStart) {
+                            return false;
+                        }
+                    }
+                }
+                
+                return true;
+            });
+            
+            // Reset pagination
+            currentPage = 1;
+            
+            // Render emails and pagination
+            renderEmails();
+            renderPagination();
+        }
+        
+        // Render emails for current page
+        function renderEmails() {
+            const emailList = document.getElementById('email-list');
+            
+            if (filteredEmails.length === 0) {
+                emailList.innerHTML = `
+                    <div class="no-emails">
+                        <p>No emails match your filter criteria.</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            // Calculate pagination
+            const startIndex = (currentPage - 1) * itemsPerPage;
+            const endIndex = Math.min(startIndex + itemsPerPage, filteredEmails.length);
+            const pageEmails = filteredEmails.slice(startIndex, endIndex);
+            
+            // Render emails
+            emailList.innerHTML = '';
+            
+            pageEmails.forEach(email => {
+                const emailElement = document.createElement('div');
+                emailElement.className = 'email-item';
+                emailElement.dataset.id = email.email_id;
+                
+                const badgeClass = getBadgeClass(email.classification);
+                const confidence = Math.round(email.confidence * 100);
+                
+                emailElement.innerHTML = `
+                    <div class="email-header">
+                        <div class="email-subject">
+                            ${email.subject || 'No Subject'}
+                            <span class="badge ${badgeClass}">${email.classification}</span>
+                        </div>
+                        <div class="email-meta">
+                            ${formatDate(email.processed_at)} | Confidence: ${confidence}%
+                        </div>
+                    </div>
+                    <div class="email-preview">${email.body || 'No content'}</div>
+                `;
+                
+                emailElement.addEventListener('click', () => {
+                    // Remove selected class from all emails
+                    document.querySelectorAll('.email-item').forEach(item => {
+                        item.classList.remove('selected');
+                    });
+                    
+                    // Add selected class to clicked email
+                    emailElement.classList.add('selected');
+                    
+                    // Show email details
+                    displayEmailDetails(email);
+                });
+                
+                emailList.appendChild(emailElement);
+            });
+        }
+        
+        // Render pagination controls
+        function renderPagination() {
+            const paginationElement = document.getElementById('pagination');
+            const totalPages = Math.ceil(filteredEmails.length / itemsPerPage);
+            
+            if (totalPages <= 1) {
+                paginationElement.innerHTML = '';
+                return;
+            }
+            
+            let paginationHTML = '';
+            
+            // Previous button
+            paginationHTML += `
+                <div class="pagination-item" id="prev-page">
+                    &laquo;
+                </div>
+            `;
+            
+            // Page numbers
+            for (let i = 1; i <= totalPages; i++) {
+                paginationHTML += `
+                    <div class="pagination-item ${i === currentPage ? 'active' : ''}" data-page="${i}">
+                        ${i}
+                    </div>
+                `;
+            }
+            
+            // Next button
+            paginationHTML += `
+                <div class="pagination-item" id="next-page">
+                    &raquo;
+                </div>
+            `;
+            
+            paginationElement.innerHTML = paginationHTML;
+            
+            // Add event listeners
+            document.getElementById('prev-page').addEventListener('click', () => {
+                if (currentPage > 1) {
+                    currentPage--;
+                    renderEmails();
+                    renderPagination();
+                }
+            });
+            
+            document.getElementById('next-page').addEventListener('click', () => {
+                if (currentPage < totalPages) {
+                    currentPage++;
+                    renderEmails();
+                    renderPagination();
+                }
+            });
+            
+            document.querySelectorAll('.pagination-item[data-page]').forEach(item => {
+                item.addEventListener('click', () => {
+                    currentPage = parseInt(item.dataset.page);
+                    renderEmails();
+                    renderPagination();
+                });
+            });
+        }
+        
+        // Display email details
+        function displayEmailDetails(email) {
+            const detailElement = document.getElementById('email-detail');
+            
+            // Update detail content
+            document.getElementById('detail-subject').textContent = email.subject || 'No Subject';
+            document.getElementById('detail-id').textContent = email.email_id;
+            document.getElementById('detail-time').textContent = formatDate(email.processed_at);
+            document.getElementById('detail-processor').textContent = email.processed_by;
+            document.getElementById('detail-body').textContent = email.body || 'No content';
+            
+            // Update classification details
+            const badgeClass = getBadgeClass(email.classification);
+            const confidence = Math.round(email.confidence * 100);
+            
+            document.getElementById('detail-classification').innerHTML = 
+                `<span class="badge ${badgeClass}">${email.classification}</span>`;
+            document.getElementById('detail-confidence').textContent = `${confidence}%`;
+            
+            // Update confidence bar
+            const confidenceBar = document.getElementById('confidence-bar');
+            confidenceBar.style.width = `${confidence}%`;
+            
+            // Show the detail section
+            detailElement.style.display = 'block';
+            
+            // Scroll to detail section
+            detailElement.scrollIntoView({ behavior: 'smooth' });
+        }
+        
+        // Filter button event handlers
+        document.getElementById('apply-filters').addEventListener('click', applyFilters);
+        
+        document.getElementById('reset-filters').addEventListener('click', () => {
+            document.getElementById('classification-filter').value = 'all';
+            document.getElementById('confidence-filter').value = '0';
+            document.getElementById('date-filter').value = 'all';
+            applyFilters();
+        });
+        
+        // Initialize on page load
+        document.addEventListener('DOMContentLoaded', () => {
+            loadEmails();
+        });
+    </script>
+</body>
+</html>
