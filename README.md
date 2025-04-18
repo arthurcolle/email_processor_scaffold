@@ -208,14 +208,67 @@ The `test_flow.py` script performs an end-to-end test of the email processing sy
 └── requirements.txt            # Python dependencies
 ```
 
-### Email Classification Types
+### Email Classification System
 
-The system supports these classification types:
+#### Basic Classification Types
+
+The system's original classification included basic types:
 
 - `meeting` - Meeting invitations, calendar events
 - `promotion` - Marketing, promotions, offers
 - `intro` - Introductions, greetings, welcome emails
 - `unknown` - Emails that don't match other categories
+
+#### Enhanced Classification System
+
+We've developed an enhanced classification system with 60-180 fine-grained categories for more precise email classification:
+
+- **Multi-dimensional Classification**: Content type, communication type, and urgency level
+- **Hierarchical Taxonomy**: Categories organized in a 3-level hierarchy for better organization
+- **Email-Specific Features**: Specialized extraction of email patterns, metadata, and structures
+- **Business Focus**: Categories tailored to business communications, especially relevant for the Enron dataset
+
+To use the enhanced classification system:
+
+```bash
+# Run the complete enhanced pipeline with 4800 email samples
+python enhance_email_classifier.py --full --emails 4800
+
+# View the generated report
+open data/enhanced_classifier_report.html
+```
+
+The enhanced system achieves significantly higher accuracy and better generalization across different email topics. See the [Implementation Guide](IMPLEMENTATION.md) for detailed architecture and performance metrics.
+
+### Supported Datasets
+
+The system supports multiple email datasets for training and evaluation:
+
+#### Enron Email Dataset
+- Corporate email dataset with real-world business communications
+- Contains approximately 500,000 messages from 150 users
+- Our enhanced system processes a curated subset for model training and evaluation
+
+#### Apache SpamAssassin Public Corpus
+- Well-known spam/ham classification dataset
+- Contains over 6,000 emails with both spam and legitimate messages
+- Used for evaluating classifier performance on spam detection
+
+To use the SpamAssassin dataset:
+
+```bash
+# First, download and process the SpamAssassin corpus
+python scripts/spamassassin_processor.py --download --extract --process
+
+# Create a balanced sample dataset
+python scripts/spamassassin_processor.py --create-samples --sample-size 5000 --spam-ratio 0.3
+
+# Analyze the SpamAssassin corpus
+python scripts/spamassassin_processor.py --analyze
+
+# Run classification on the SpamAssassin dataset using our enhanced model
+python scripts/spamassassin_classifier.py --evaluate
+```
 
 ## Troubleshooting
 

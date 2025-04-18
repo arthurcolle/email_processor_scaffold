@@ -13,65 +13,213 @@ from typing import Dict, Any, List, Optional, Tuple
 
 # Extended classification categories
 EMAIL_CATEGORIES = {
+    # Original categories
     "intro": {
         "name": "Introduction",
         "description": "Emails introducing people, products, or services",
-        "weight": 0.10,
+        "weight": 0.05,
     },
     "promotion": {
         "name": "Promotion",
         "description": "Marketing and promotional emails",
-        "weight": 0.15,
+        "weight": 0.08,
     },
     "meeting": {
         "name": "Meeting",
         "description": "Meeting invitations, confirmations, and follow-ups",
-        "weight": 0.15,
-    },
-    "report": {
-        "name": "Report",
-        "description": "Status reports, analytics, and data summaries",
-        "weight": 0.10,
-    },
-    "news": {
-        "name": "News",
-        "description": "News updates, announcements, and newsletters",
         "weight": 0.08,
     },
-    "support": {
-        "name": "Support",
-        "description": "Technical support, help desk, and troubleshooting",
-        "weight": 0.07,
+    "unknown": {
+        "name": "Unknown",
+        "description": "Emails that don't fit any category",
+        "weight": 0.02,
     },
-    "billing": {
-        "name": "Billing",
-        "description": "Invoices, receipts, and payment notifications",
+    
+    # General categories
+    "newsletter": {
+        "name": "Newsletter",
+        "description": "Regular newsletters and updates",
         "weight": 0.05,
     },
-    "security": {
-        "name": "Security",
-        "description": "Security alerts, password resets, and warnings",
+    "notification": {
+        "name": "Notification",
+        "description": "System notifications, alerts, and updates",
+        "weight": 0.05,
+    },
+    "transaction": {
+        "name": "Transaction",
+        "description": "Purchase confirmations and receipts",
         "weight": 0.04,
     },
     "invitation": {
         "name": "Invitation",
         "description": "Event invitations, webinars, and conferences",
-        "weight": 0.05,
+        "weight": 0.04,
+    },
+    "alert": {
+        "name": "Alert",
+        "description": "Critical alerts and time-sensitive notifications",
+        "weight": 0.03,
+    },
+    "announcement": {
+        "name": "Announcement",
+        "description": "Company or product announcements",
+        "weight": 0.03,
+    },
+    "receipt": {
+        "name": "Receipt",
+        "description": "Purchase receipts and confirmations",
+        "weight": 0.03,
+    },
+    "request": {
+        "name": "Request",
+        "description": "Requests for information or action",
+        "weight": 0.03,
+    },
+    "social": {
+        "name": "Social",
+        "description": "Social media notifications and updates",
+        "weight": 0.02,
+    },
+    "updates": {
+        "name": "Updates",
+        "description": "Status updates and progress reports",
+        "weight": 0.03,
+    },
+    "security": {
+        "name": "Security",
+        "description": "Security alerts, password resets, and warnings",
+        "weight": 0.03,
+    },
+    "personal": {
+        "name": "Personal",
+        "description": "Personal communications and messages",
+        "weight": 0.02,
+    },
+    "bill": {
+        "name": "Bill",
+        "description": "Bills, invoices, and payment requests",
+        "weight": 0.03,
+    },
+    "travel": {
+        "name": "Travel",
+        "description": "Travel itineraries and confirmations",
+        "weight": 0.02,
+    },
+    "shipping": {
+        "name": "Shipping",
+        "description": "Shipping confirmations and tracking updates",
+        "weight": 0.02,
+    },
+    "survey": {
+        "name": "Survey",
+        "description": "Survey requests and feedback forms",
+        "weight": 0.02,
+    },
+    
+    # HR categories
+    "job_application": {
+        "name": "Job Application",
+        "description": "Job applications and inquiries",
+        "weight": 0.02,
+    },
+    "employment_offer": {
+        "name": "Employment Offer",
+        "description": "Job offers and employment details",
+        "weight": 0.02,
+    },
+    "onboarding": {
+        "name": "Onboarding",
+        "description": "New employee onboarding information",
+        "weight": 0.01,
+    },
+    "performance_review": {
+        "name": "Performance Review",
+        "description": "Performance reviews and feedback",
+        "weight": 0.01,
+    },
+    "benefits": {
+        "name": "Benefits",
+        "description": "Employee benefits information",
+        "weight": 0.01,
+    },
+    "payroll": {
+        "name": "Payroll",
+        "description": "Payroll notifications and updates",
+        "weight": 0.01,
+    },
+    
+    # Finance categories
+    "invoice": {
+        "name": "Invoice",
+        "description": "Invoices and billing statements",
+        "weight": 0.02,
+    },
+    "expense_report": {
+        "name": "Expense Report",
+        "description": "Expense reports and reimbursements",
+        "weight": 0.01,
+    },
+    "budget": {
+        "name": "Budget",
+        "description": "Budget planning and updates",
+        "weight": 0.01,
+    },
+    "payment_confirmation": {
+        "name": "Payment Confirmation",
+        "description": "Confirmations of payments received",
+        "weight": 0.02,
+    },
+    
+    # Legal categories
+    "contract": {
+        "name": "Contract",
+        "description": "Contracts and legal agreements",
+        "weight": 0.02,
+    },
+    "legal_notice": {
+        "name": "Legal Notice",
+        "description": "Legal notices and compliance information",
+        "weight": 0.01,
+    },
+    "nda": {
+        "name": "NDA",
+        "description": "Non-disclosure agreements",
+        "weight": 0.01,
+    },
+    
+    # Support categories
+    "support": {
+        "name": "Support",
+        "description": "Technical support, help desk, and troubleshooting",
+        "weight": 0.04,
+    },
+    "maintenance_notification": {
+        "name": "Maintenance Notification",
+        "description": "System maintenance notifications",
+        "weight": 0.02,
+    },
+    
+    # Other categories maintained for backward compatibility
+    "report": {
+        "name": "Report",
+        "description": "Status reports, analytics, and data summaries",
+        "weight": 0.03,
+    },
+    "news": {
+        "name": "News",
+        "description": "News updates and announcements",
+        "weight": 0.02,
     },
     "feedback": {
         "name": "Feedback",
-        "description": "Feedback requests, surveys, and reviews",
-        "weight": 0.06,
-    },
-    "notification": {
-        "name": "Notification",
-        "description": "System notifications, alerts, and updates",
-        "weight": 0.07,
+        "description": "Feedback requests and responses",
+        "weight": 0.02,
     },
     "inquiry": {
         "name": "Inquiry",
-        "description": "General questions, inquiries, and information requests",
-        "weight": 0.08,
+        "description": "General questions and inquiries",
+        "weight": 0.02,
     }
 }
 
@@ -934,6 +1082,916 @@ This email was sent to you as part of our security procedures. It cannot be repl
         "category": "security"
     }
 
+def generate_billing_email() -> Dict[str, str]:
+    """Generate a billing or invoice email"""
+    company = random.choice(COMPANIES)
+    service = random.choice(SERVICES)
+    reference = generate_reference_number()
+    product = random.choice(PRODUCTS)
+    sender = generate_person_name()
+    
+    # Payment details
+    amount = f"${random.randint(10, 999)}.{random.choice(['00', '99', '50'])}"
+    due_date = generate_date_future(3, 14)
+    invoice_date = generate_date_past(1, 7)
+    payment_methods = ["Credit Card", "Bank Transfer", "PayPal", "Check", "Direct Debit"]
+    payment_method = random.choice(payment_methods)
+    
+    # Create subject line
+    subject_templates = [
+        f"Invoice #{reference} for {service}",
+        f"Your {company} bill is ready - ${amount}",
+        f"Payment due: {service} subscription",
+        f"{company} billing statement - {invoice_date}",
+        f"Receipt for your recent purchase: {product}"
+    ]
+    subject = random.choice(subject_templates)
+    
+    body_templates = [
+        f"""
+Dear Customer,
+
+This is to confirm that your invoice #{reference} has been generated for your {service} subscription.
+
+Invoice details:
+• Invoice date: {invoice_date}
+• Amount due: {amount}
+• Due date: {due_date}
+• Payment method: {payment_method}
+
+To view or download your invoice, please visit: {generate_url()}
+
+If you have any questions about this invoice, please contact our billing department at billing@{company.lower().replace(' ', '')}.com.
+
+Thank you for your business,
+{sender}
+{company} Billing Team
+""",
+        f"""
+BILLING NOTIFICATION
+
+Invoice #: {reference}
+Date: {invoice_date}
+Due: {due_date}
+Amount: {amount}
+
+This is an automated notification that your {service} payment is now due.
+
+Payment Options:
+1. Online: {generate_url()}
+2. Phone: Call (555) 123-4567
+3. Mail: Send check to {company}, P.O. Box 12345, Anytown, USA
+
+Please ensure payment is made by the due date to avoid service interruption.
+
+Regards,
+{company} Finance Department
+""",
+        f"""
+Receipt - {company}
+
+Thank you for your payment of {amount} for {service}.
+
+Transaction Details:
+• Date: {invoice_date}
+• Reference: {reference}
+• Item: {service} {random.choice(['Monthly', 'Annual', 'Quarterly'])} Subscription
+• Next billing date: {generate_date_future(28, 32)}
+
+Your payment has been processed successfully. This email serves as your official receipt.
+
+Questions about your bill? Visit our billing FAQ: {generate_url()}
+
+{company} - We appreciate your business!
+"""
+    ]
+    
+    body = random.choice(body_templates)
+    
+    return {
+        "subject": subject,
+        "body": body,
+        "category": "bill"
+    }
+
+def generate_invitation_email() -> Dict[str, str]:
+    """Generate an invitation to an event"""
+    event = random.choice(EVENTS)
+    sender = generate_person_name()
+    company = random.choice(COMPANIES)
+    date = generate_date_future(7, 60)
+    time = generate_time()
+    
+    # Create subject line
+    subject_templates = [
+        f"Invitation: {company} {event} - {date}",
+        f"You're invited: {event} on {date}",
+        f"Join us for {company}'s upcoming {event}",
+        f"Save the date: {event} - {date}",
+        f"Exclusive invitation: {event} hosted by {company}"
+    ]
+    subject = random.choice(subject_templates)
+    
+    # Event details
+    is_virtual = random.random() < 0.7
+    if is_virtual:
+        location = f"Online via {random.choice(VIRTUAL_PLATFORMS)}"
+    else:
+        location = random.choice(LOCATIONS)
+    
+    # Build the email body
+    body_templates = [
+        f"""
+Dear Colleague,
+
+You are cordially invited to attend our upcoming {event}.
+
+Event Details:
+• Date: {date}
+• Time: {time}
+• Location: {location}
+• Host: {company}
+
+{random.choice([
+    f"This exclusive event will feature discussions on the latest trends in {random.choice(DEPARTMENTS).lower()}.",
+    f"Join industry leaders for an insightful conversation about {random.choice(PROJECTS).lower()}.",
+    f"Don't miss this opportunity to network with professionals in {random.choice(DEPARTMENTS).lower()}."
+])}
+
+Please RSVP by {generate_date_future(1, 5)} at {generate_url()}
+
+We look forward to your participation!
+
+Best regards,
+{sender}
+Event Coordinator, {company}
+""",
+        f"""
+YOU'RE INVITED!
+
+{company} presents:
+{event.upper()}
+
+When: {date} at {time}
+Where: {location}
+
+What to expect:
+• {random.choice(['Keynote presentations', 'Panel discussions', 'Networking opportunities', 'Product demonstrations'])}
+• {random.choice(['Q&A sessions', 'Hands-on workshops', 'Industry insights', 'Exclusive previews'])}
+• {random.choice(['Complimentary refreshments', 'Expert speakers', 'Certificate of attendance', 'Resource materials'])}
+
+{random.choice(['Space is limited', 'Registration is required', 'Early bird discount available until ' + generate_date_future(1, 5)])}
+
+Register now: {generate_url()}
+
+We hope to see you there!
+{sender}, {company}
+""",
+        f"""
+SAVE THE DATE: {date.upper()}
+
+{company} invites you to join us for our {event}.
+
+Time: {time}
+Location: {location}
+
+This event is perfect for {random.choice(['industry professionals', 'team leaders', 'business executives', 'technical specialists'])} interested in {random.choice(['innovation', 'professional development', 'networking', 'industry trends'])}.
+
+More information: {generate_url()}
+
+RSVP: {generate_url()}
+
+Looking forward to connecting with you!
+
+Warm regards,
+{sender}
+"""
+    ]
+    
+    body = random.choice(body_templates)
+    
+    return {
+        "subject": subject,
+        "body": body,
+        "category": "invitation"
+    }
+
+def generate_newsletter_email() -> Dict[str, str]:
+    """Generate a newsletter email"""
+    company = random.choice(COMPANIES)
+    sender = generate_person_name()
+    month = random.choice(MONTHS)
+    topics = random.sample([
+        "industry trends", "company updates", "new products", "feature highlights",
+        "customer success stories", "upcoming events", "tips and tricks",
+        "team spotlights", "market insights", "product roadmap"
+    ], k=random.randint(3, 5))
+    
+    subject_templates = [
+        f"{company} Newsletter - {month} Edition",
+        f"{month} Updates from {company}",
+        f"What's New at {company}: {month} Newsletter",
+        f"{company} Insider: {month}'s Top Stories",
+        f"Your {month} Briefing from {company}"
+    ]
+    subject = random.choice(subject_templates)
+    
+    # Create content snippets
+    content_snippets = []
+    for topic in topics:
+        if "trend" in topic:
+            content_snippets.append(f"**{topic.title()}**\n{random.choice(DEPARTMENTS)} is seeing a surge in {random.choice(PRODUCTS).lower()} adoption. Our analysis shows a {generate_percentage()}% increase in the past quarter.")
+        elif "update" in topic:
+            content_snippets.append(f"**{topic.title()}**\nExciting changes at {company}! We've {random.choice(['expanded our team', 'moved to a new office', 'launched a new initiative', 'restructured our departments'])}.")
+        elif "product" in topic:
+            content_snippets.append(f"**{topic.title()}**\nIntroducing our newest offering: {random.choice(PRODUCTS)}. Designed to {random.choice(['improve efficiency', 'reduce costs', 'enhance productivity', 'streamline operations'])}.")
+        elif "success" in topic:
+            content_snippets.append(f"**{topic.title()}**\nHow {random.choice(COMPANIES)} achieved a {generate_percentage()}% {random.choice(['increase in efficiency', 'reduction in costs', 'improvement in customer satisfaction'])} using our solutions.")
+        elif "event" in topic:
+            content_snippets.append(f"**{topic.title()}**\nJoin us at the upcoming {random.choice(EVENTS)} on {generate_date_future(14, 60)}. {random.choice(['Register early', 'Limited spots available', 'Special discount for subscribers'])}.")
+        else:
+            content_snippets.append(f"**{topic.title()}**\n{random.choice(['Check out our latest blog post', 'Watch our recent webinar', 'Download our new whitepaper'])} about {random.choice(PRODUCTS).lower()} at {generate_url()}")
+    
+    # Shuffle content snippets
+    random.shuffle(content_snippets)
+    content = "\n\n".join(content_snippets)
+    
+    body_templates = [
+        f"""
+{company} Newsletter - {month} Edition
+
+Dear Subscriber,
+
+Welcome to our {month} newsletter! Here's what's happening this month:
+
+{content}
+
+Want more updates? Follow us on social media or visit our website: {generate_url()}
+
+To unsubscribe, click here: {generate_url()}
+
+Best regards,
+{sender}
+{company} Marketing Team
+""",
+        f"""
+{month}'S HIGHLIGHTS FROM {company.upper()}
+
+Hello from all of us at {company}!
+
+IN THIS ISSUE:
+{content}
+
+Read the full stories on our blog: {generate_url()}
+
+We value your feedback! Let us know what topics you'd like to see in future newsletters.
+
+Until next month,
+{sender} and the {company} Team
+""",
+        f"""
+{company} INSIDER
+
+{month} Edition | Stay Informed, Stay Ahead
+
+{content}
+
+QUICK LINKS:
+• {random.choice(['Subscribe to our podcast', 'Join our community', 'Check out our resources'])}
+• {random.choice(['View past newsletters', 'Meet our team', 'Request a demo'])}
+• {random.choice(['Contact support', 'Share feedback', 'Update preferences'])}
+
+Copyright © {datetime.now().year} {company}. All rights reserved.
+"""
+    ]
+    
+    body = random.choice(body_templates)
+    
+    return {
+        "subject": subject,
+        "body": body,
+        "category": "newsletter"
+    }
+
+def generate_notification_email() -> Dict[str, str]:
+    """Generate a notification email"""
+    company = random.choice(COMPANIES)
+    system = random.choice(SYSTEMS)
+    
+    notification_types = [
+        "account update", "system maintenance", "feature release", 
+        "policy change", "status change", "reminder", "confirmation"
+    ]
+    notification_type = random.choice(notification_types)
+    
+    subject_templates = [
+        f"Notification: {notification_type} for your {system}",
+        f"Important: {notification_type.title()} - Action Required",
+        f"{company} Alert: {notification_type.title()}",
+        f"Your {system} {notification_type} notification",
+        f"{notification_type.title()} - Please Review"
+    ]
+    subject = random.choice(subject_templates)
+    
+    # Create notification content based on type
+    if "maintenance" in notification_type:
+        content = f"We will be performing scheduled maintenance on our {system} on {generate_date_future(1, 7)} from {generate_time()} for approximately {random.choice(['1 hour', '2 hours', '30 minutes'])}. During this time, the service may be temporarily unavailable."
+    elif "feature" in notification_type:
+        content = f"We're excited to announce that we've released new features for {system}. These improvements include {random.choice(['enhanced performance', 'additional functionality', 'improved user interface', 'better security'])}."
+    elif "policy" in notification_type:
+        content = f"We've updated our {random.choice(['terms of service', 'privacy policy', 'user agreement', 'data retention policy'])} effective {generate_date_future(7, 30)}. Please review the changes at {generate_url()}"
+    elif "reminder" in notification_type:
+        content = f"This is a friendly reminder about your upcoming {random.choice(['subscription renewal', 'payment due date', 'account review', 'password expiration'])} on {generate_date_future(1, 7)}."
+    elif "confirmation" in notification_type:
+        content = f"This email confirms your recent {random.choice(['account changes', 'subscription update', 'profile modification', 'settings adjustment'])} made on {generate_date_past(0, 2)}."
+    else:
+        content = f"We're contacting you regarding an important update to your {system} account. Please review the details below and take any necessary action."
+    
+    body_templates = [
+        f"""
+Dear User,
+
+{content}
+
+{random.choice([
+    f"If you have any questions, please contact our support team.",
+    f"No action is required from you at this time.",
+    f"Please visit {generate_url()} for more information.",
+    f"To update your notification preferences, visit your account settings."
+])}
+
+Thank you,
+{company} Support Team
+""",
+        f"""
+NOTIFICATION: {notification_type.upper()}
+
+{content}
+
+WHAT THIS MEANS FOR YOU:
+• {random.choice(['Your account remains active', 'No immediate action required', 'Service will continue uninterrupted', 'Your data remains secure'])}
+• {random.choice(['You may notice brief service interruptions', 'New features will be available automatically', 'Updated terms apply to your account', 'We recommend reviewing your settings'])}
+
+For more details: {generate_url()}
+
+This is an automated notification. Please do not reply to this email.
+
+{company}
+""",
+        f"""
+Important Notification
+
+Re: {notification_type.title()}
+
+Hello,
+
+{content}
+
+{random.choice([
+    f"To acknowledge this notification, please click here: {generate_url()}",
+    f"For assistance, contact us at support@{company.lower().replace(' ', '')}.com",
+    f"You can manage your notification settings at any time through your account dashboard."
+])}
+
+Best regards,
+{company} Notifications
+"""
+    ]
+    
+    body = random.choice(body_templates)
+    
+    return {
+        "subject": subject,
+        "body": body,
+        "category": "notification"
+    }
+
+def generate_transaction_email() -> Dict[str, str]:
+    """Generate a transaction confirmation email"""
+    company = random.choice(COMPANIES)
+    product = random.choice(PRODUCTS)
+    reference = generate_reference_number()
+    
+    # Transaction details
+    amount = f"${random.randint(10, 999)}.{random.choice(['00', '99', '50'])}"
+    transaction_date = generate_date_past(0, 2)
+    payment_methods = ["Credit Card ****" + ''.join(random.choice('0123456789') for _ in range(4)), 
+                      "PayPal", "Bank Transfer", "Digital Wallet", "Gift Card"]
+    payment_method = random.choice(payment_methods)
+    
+    subject_templates = [
+        f"Transaction Confirmation #{reference}",
+        f"Your {company} purchase receipt",
+        f"Order Confirmation: {product}",
+        f"Receipt for your payment of {amount}",
+        f"Thank you for your purchase from {company}"
+    ]
+    subject = random.choice(subject_templates)
+    
+    body_templates = [
+        f"""
+Dear Customer,
+
+Thank you for your purchase! Your transaction has been completed successfully.
+
+Transaction Details:
+• Date: {transaction_date}
+• Amount: {amount}
+• Reference: #{reference}
+• Payment Method: {payment_method}
+• Item: {product}
+
+{random.choice([
+    f"Your digital download is available at: {generate_url()}",
+    f"Your order will be delivered within {random.randint(2, 7)} business days.",
+    f"Your subscription has been activated and is ready to use.",
+    f"Your receipt has been attached to this email for your records."
+])}
+
+If you have any questions about this transaction, please contact our customer service team.
+
+Thank you for choosing {company}!
+
+Best regards,
+{company} Customer Service
+""",
+        f"""
+TRANSACTION CONFIRMATION
+
+Your payment has been processed successfully.
+
+PAYMENT SUMMARY:
+Item: {product}
+Amount: {amount}
+Date: {transaction_date}
+Transaction ID: {reference}
+Method: {payment_method}
+
+{random.choice([
+    f"Track your shipment: {generate_url()}",
+    f"View your purchase history: {generate_url()}",
+    f"Download your item: {generate_url()}",
+    f"Manage your subscription: {generate_url()}"
+])}
+
+Need help? Contact us at support@{company.lower().replace(' ', '')}.com
+
+{company} - Thank you for your business!
+""",
+        f"""
+Receipt from {company}
+
+We've received your payment of {amount}.
+
+Order Details:
+• Product: {product}
+• Order #: {reference}
+• Date: {transaction_date}
+• Payment: {payment_method}
+
+{random.choice([
+    f"Your purchase includes free support for 30 days.",
+    f"Access your account to view complete order details.",
+    f"Save this receipt for your records and warranty claims.",
+    f"A survey about your purchase experience will be sent separately."
+])}
+
+Questions about your order? Visit our Help Center or reply to this email.
+
+{company}
+"""
+    ]
+    
+    body = random.choice(body_templates)
+    
+    return {
+        "subject": subject,
+        "body": body,
+        "category": "transaction"
+    }
+
+def generate_employment_offer_email() -> Dict[str, str]:
+    """Generate an employment offer email"""
+    company = random.choice(COMPANIES)
+    role = random.choice(ROLES)
+    department = random.choice(DEPARTMENTS)
+    recipient = generate_person_name()
+    sender = generate_person_name()
+    start_date = generate_date_future(14, 45)
+    
+    subject_templates = [
+        f"Job Offer: {role} position at {company}",
+        f"Official Employment Offer - {role}",
+        f"{company} is pleased to offer you the {role} position",
+        f"Your offer letter for the {role} position",
+        f"Welcome to {company}: Your Employment Offer"
+    ]
+    subject = random.choice(subject_templates)
+    
+    salary = f"${random.randint(50, 150)},000"
+    benefits = [
+        "Health, dental, and vision insurance",
+        "401(k) plan with company match",
+        "Flexible work arrangements",
+        "Professional development budget",
+        "Paid time off",
+        "Stock options",
+        "Performance bonuses",
+        "Relocation assistance"
+    ]
+    selected_benefits = random.sample(benefits, k=random.randint(3, 5))
+    benefits_list = "\n".join([f"• {benefit}" for benefit in selected_benefits])
+    
+    body_templates = [
+        f"""
+Dear {recipient},
+
+We are pleased to offer you the position of {role} in our {department} department at {company}. We were impressed with your background and believe you would be a valuable asset to our team.
+
+Position Details:
+• Title: {role}
+• Department: {department}
+• Start Date: {start_date}
+• Salary: {salary} per year
+• Status: Full-time
+
+Benefits:
+{benefits_list}
+
+To accept this offer, please sign and return the attached offer letter by {generate_date_future(3, 7)}. If you have any questions or need clarification on any aspect of this offer, please don't hesitate to contact me.
+
+We are excited about the possibility of you joining our team and look forward to your response.
+
+Best regards,
+{sender}
+Human Resources
+{company}
+""",
+        f"""
+OFFICIAL EMPLOYMENT OFFER
+
+{company} → {recipient}
+
+Dear {recipient},
+
+Congratulations! Following our recent interviews, we are delighted to formally offer you the position of {role} at {company}.
+
+OFFER DETAILS:
+• Position: {role}
+• Team: {department}
+• Compensation: {salary} annually
+• Start date: {start_date}
+
+YOUR BENEFITS PACKAGE INCLUDES:
+{benefits_list}
+
+Next steps:
+1. Review the attached formal offer letter and employment agreement
+2. Sign and return by {generate_date_future(3, 7)}
+3. Complete the background check process
+4. Our HR team will contact you to arrange onboarding
+
+We're thrilled about the skills and perspective you'll bring to our team. If you have any questions, please contact me directly.
+
+Looking forward to welcoming you aboard!
+
+{sender}
+Talent Acquisition Manager
+{company}
+""",
+        f"""
+Welcome to {company}!
+
+Dear {recipient},
+
+It is with great pleasure that I officially offer you the position of {role} within our {department} department at {company}.
+
+Based on our discussions and your interview process, we believe you are an excellent fit for our team and company culture. 
+
+Your employment terms include:
+• Annual salary: {salary}
+• Starting date: {start_date}
+• Location: {random.choice(['Headquarters', 'Remote', 'Regional Office'])}
+
+Benefits summary:
+{benefits_list}
+
+To indicate your acceptance, please sign the enclosed employment agreement and return it by {generate_date_future(3, 7)}.
+
+We're excited to have you join us and contribute to our continued success.
+
+Sincerely,
+{sender}
+{company}
+"""
+    ]
+    
+    body = random.choice(body_templates)
+    
+    return {
+        "subject": subject,
+        "body": body,
+        "category": "employment_offer"
+    }
+
+def generate_contract_email() -> Dict[str, str]:
+    """Generate a contract-related email"""
+    company = random.choice(COMPANIES)
+    partner_company = random.choice(COMPANIES)
+    sender = generate_person_name()
+    recipient = generate_person_name()
+    
+    contract_types = [
+        "Service Agreement", "Master Services Agreement", "Statement of Work",
+        "Partnership Agreement", "Non-Disclosure Agreement", "Licensing Agreement",
+        "Sales Contract", "Consulting Agreement", "Vendor Agreement"
+    ]
+    contract_type = random.choice(contract_types)
+    
+    subject_templates = [
+        f"{contract_type} for your review",
+        f"Contract: {company} and {partner_company}",
+        f"Please review: {contract_type} draft",
+        f"{contract_type} - Requires your signature",
+        f"Important: {contract_type} for upcoming project"
+    ]
+    subject = random.choice(subject_templates)
+    
+    due_date = generate_date_future(3, 10)
+    
+    body_templates = [
+        f"""
+Dear {recipient},
+
+I am sending the {contract_type} between {company} and {partner_company} for your review and signature.
+
+This contract outlines the terms and conditions for our {random.choice(['upcoming collaboration', 'project engagement', 'service provision', 'partnership arrangement'])}.
+
+Key points include:
+• Term: {random.randint(1, 3)} year(s), commencing on {generate_date_future(7, 30)}
+• {random.choice(['Payment terms: Net 30', 'Deliverables schedule included', 'Performance metrics defined', 'Renewal options detailed'])}
+• {random.choice(['Confidentiality provisions', 'Intellectual property rights', 'Termination clauses', 'Liability limitations'])}
+
+Please review the attached document and provide your signature by {due_date}.
+
+If you have any questions or need clarification on any terms, please don't hesitate to contact me.
+
+Best regards,
+{sender}
+{random.choice(['Legal Department', 'Business Development', 'Contracts Manager', 'Operations'])}
+{company}
+""",
+        f"""
+{contract_type.upper()} - ACTION REQUIRED
+
+Hello {recipient},
+
+Attached please find the {contract_type} between {company} and {partner_company} for your review and execution.
+
+AGREEMENT SUMMARY:
+• Type: {contract_type}
+• Parties: {company} and {partner_company}
+• Purpose: {random.choice(['Professional services', 'Product licensing', 'Joint venture', 'Software development'])}
+• Effective date: Upon final signature
+• Duration: {random.choice(['12 months', '24 months', '36 months', 'Until project completion'])}
+
+Please review, sign, and return by {due_date}. You can use our electronic signature system at {generate_url()} or sign the PDF and email it back.
+
+Let me know if you need any changes or have questions about the terms.
+
+Regards,
+{sender}
+{company}
+""",
+        f"""
+Contract for Review: {contract_type}
+
+Dear {recipient},
+
+I hope this email finds you well. I'm reaching out regarding the {contract_type} between our organizations.
+
+As discussed, I've attached the contract document for your review and approval. This agreement covers:
+
+1. {random.choice(['Scope of work', 'Service specifications', 'Deliverables', 'Project timeline'])}
+2. {random.choice(['Financial terms', 'Payment schedule', 'Pricing details', 'Budget allocation'])}
+3. {random.choice(['Legal obligations', 'Compliance requirements', 'Warranty information', 'Support terms'])}
+
+We would appreciate your feedback and signature by {due_date} to ensure we can {random.choice(['begin work on schedule', 'maintain our timeline', 'proceed with the next steps', 'finalize our arrangement'])}.
+
+Please feel free to suggest any modifications or ask questions about specific clauses.
+
+Thank you for your attention to this matter.
+
+Sincerely,
+{sender}
+{company}
+"""
+    ]
+    
+    body = random.choice(body_templates)
+    
+    return {
+        "subject": subject,
+        "body": body,
+        "category": "contract"
+    }
+
+def generate_survey_email() -> Dict[str, str]:
+    """Generate a survey or feedback request email"""
+    company = random.choice(COMPANIES)
+    product = random.choice(PRODUCTS)
+    service = random.choice(SERVICES)
+    item = random.choice([product, service])
+    
+    subject_templates = [
+        f"Your feedback on {item} is important to us",
+        f"Quick survey: Help us improve {item}",
+        f"{company} customer satisfaction survey",
+        f"We value your opinion about {item}",
+        f"5 minutes of your time? Share your thoughts on {item}"
+    ]
+    subject = random.choice(subject_templates)
+    
+    body_templates = [
+        f"""
+Dear Customer,
+
+We hope you've been enjoying your experience with {item}. Your feedback is invaluable to us as we continue to improve our offerings.
+
+We've prepared a short survey that should take only {random.choice(['3-5 minutes', '5 minutes', 'a few moments'])} to complete. Your responses will help us understand how we can better serve you and other customers.
+
+Survey link: {generate_url()}
+
+{random.choice([
+    f"As a thank you for your time, you'll be entered into a drawing for a {random.choice(['$50 gift card', '$100 account credit', 'free month of service'])}.",
+    f"Your feedback directly influences our product roadmap and service improvements.",
+    f"We read every response and take your suggestions seriously."
+])}
+
+Thank you for helping us improve!
+
+Best regards,
+{company} Customer Experience Team
+""",
+        f"""
+WE WANT YOUR FEEDBACK!
+
+Your opinion matters to us at {company}.
+
+You recently {random.choice(['purchased', 'used', 'subscribed to', 'interacted with'])} our {item}, and we'd love to know about your experience.
+
+OUR QUICK SURVEY ASKS ABOUT:
+• Your overall satisfaction
+• Ease of use
+• Features you value most
+• Areas for improvement
+• Likelihood to recommend
+
+It will take just {random.choice(['3', '5', '2-3'])} minutes of your time:
+→ {generate_url()}
+
+Your feedback helps us create better products and services for you.
+
+Thank you!
+{company} Team
+""",
+        f"""
+Share Your Thoughts - {item} Feedback
+
+Hello from {company},
+
+We noticed you've been using {item} for a while now, and we'd really appreciate your insights.
+
+Our product team is actively working on improvements, and your real-world experience is exactly what we need to guide our decisions.
+
+Please take our brief survey:
+{generate_url()}
+
+{random.choice([
+    f"This survey is completely anonymous, so please feel free to be candid.",
+    f"Your specific comments will be reviewed by our product managers.",
+    f"We've designed this survey to be quick and focused, respecting your time."
+])}
+
+Thank you for being a valued customer and for helping shape the future of {item}.
+
+Regards,
+{company}
+"""
+    ]
+    
+    body = random.choice(body_templates)
+    
+    return {
+        "subject": subject,
+        "body": body,
+        "category": "survey"
+    }
+
+def generate_job_application_email() -> Dict[str, str]:
+    """Generate a job application email"""
+    role = random.choice(ROLES)
+    department = random.choice(DEPARTMENTS)
+    company = random.choice(COMPANIES)
+    sender = generate_person_name()
+    reference = 'JOB' + ''.join(random.choice('0123456789') for _ in range(5))
+    
+    subject_templates = [
+        f"Application for {role} position",
+        f"{role} job application - {sender}",
+        f"Job application: {role} at {company} ({reference})",
+        f"Interested in the {role} position",
+        f"Applying for {department} {role} role"
+    ]
+    subject = random.choice(subject_templates)
+    
+    skills = [
+        f"Experience with {random.choice(SYSTEMS)}",
+        f"Knowledge of {random.choice(DEPARTMENTS)} processes",
+        f"Proficient in {random.choice(['Python', 'Java', 'C++', 'SQL', 'JavaScript', 'Ruby'])}",
+        f"{random.randint(3, 10)}+ years in {random.choice(DEPARTMENTS)}",
+        f"Strong background in {random.choice(['project management', 'data analysis', 'customer service', 'software development', 'marketing', 'sales'])}"
+    ]
+    selected_skills = random.sample(skills, k=random.randint(2, 4))
+    skills_list = "\n".join([f"• {skill}" for skill in selected_skills])
+    
+    body_templates = [
+        f"""
+Dear Hiring Manager,
+
+I am writing to apply for the {role} position in the {department} department at {company}, as advertised on {random.choice(['your company website', 'LinkedIn', 'Indeed', 'Glassdoor'])}.
+
+With my background in {random.choice(DEPARTMENTS).lower()}, I believe I would be a valuable addition to your team. My relevant skills and experience include:
+
+{skills_list}
+
+My resume is attached for your review, detailing my professional experience and accomplishments. I am particularly interested in this position because of {random.choice([f"your company's innovative approach to {random.choice(SYSTEMS).lower()}", f"the opportunity to work on {random.choice(PROJECTS)}", f"your reputation as a leader in the industry", f"my passion for {department.lower()} work"])}.
+
+I would welcome the opportunity to discuss how my skills and experience could benefit {company}. I am available for an interview at your convenience.
+
+Thank you for considering my application. I look forward to hearing from you.
+
+Sincerely,
+{sender}
+{sender.split()[0].lower()}.{sender.split()[1].lower()}@email.com
+{random.choice(['555-123-4567', '555-987-6543', '555-234-5678'])}
+""",
+        f"""
+JOB APPLICATION: {role.upper()} POSITION
+
+Dear {company} Recruiting Team,
+
+I am excited to submit my application for the {role} position in your {department} department (Job Reference: {reference}).
+
+ABOUT ME:
+I am a {random.choice(['passionate', 'detail-oriented', 'results-driven', 'innovative'])} professional with a strong background in {random.choice(DEPARTMENTS).lower()}.
+
+KEY QUALIFICATIONS:
+{skills_list}
+
+WHY {company.upper()}?
+{random.choice([f"I've long admired your work in {random.choice(PRODUCTS)}", f"Your company values align perfectly with my professional goals", f"Your reputation for {random.choice(['innovation', 'excellence', 'work culture', 'professional development'])}", f"I'm passionate about the problems you're solving"])}
+
+I've attached my resume, portfolio, and references for your review. I'm available for interviews {random.choice(['at your convenience', 'starting next week', 'via video call or in person'])}.
+
+Thank you for your consideration. I look forward to the possibility of contributing to your team.
+
+Best regards,
+{sender}
+{sender.split()[0].lower()}@email.com
+""",
+        f"""
+Application for {role} position at {company}
+
+Hello,
+
+I hope this email finds you well. I'm reaching out to express my interest in the {role} position within your {department} department.
+
+After reading the job description, I'm confident that my experience and skills make me a strong candidate for this role.
+
+Professional highlights:
+{skills_list}
+
+What attracts me to {company} is {random.choice([f"your commitment to {random.choice(['quality', 'innovation', 'customer satisfaction', 'sustainability'])}", f"the opportunity to work on {random.choice(PROJECTS)}", f"your industry-leading position in {random.choice(DEPARTMENTS).lower()}", f"the collaborative culture I've heard about from current employees"])}.
+
+I've attached my resume and cover letter that further detail my qualifications. I would appreciate the opportunity to discuss how I can contribute to your team.
+
+Thank you for considering my application.
+
+Regards,
+{sender}
+{random.choice(['LinkedIn Profile:', 'Portfolio:', 'References available upon request'])} {generate_url()}
+"""
+    ]
+    
+    body = random.choice(body_templates)
+    
+    return {
+        "subject": subject,
+        "body": body,
+        "category": "job_application"
+    }
+
 def generate_email(category=None) -> Dict[str, str]:
     """Generate a random email with specified category or random category"""
     # If no category specified, pick one based on weights
@@ -942,23 +2000,32 @@ def generate_email(category=None) -> Dict[str, str]:
         weights = [EMAIL_CATEGORIES[cat]["weight"] for cat in categories]
         category = random.choices(categories, weights=weights)[0]
     
+    # Map category to function
+    category_functions = {
+        "meeting": generate_meeting_email,
+        "intro": generate_intro_email,
+        "promotion": generate_promotion_email,
+        "report": generate_report_email,
+        "support": generate_support_email,
+        "security": generate_security_email,
+        "bill": generate_billing_email,
+        "invitation": generate_invitation_email,
+        "newsletter": generate_newsletter_email,
+        "notification": generate_notification_email,
+        "transaction": generate_transaction_email,
+        "employment_offer": generate_employment_offer_email,
+        "contract": generate_contract_email,
+        "survey": generate_survey_email,
+        "job_application": generate_job_application_email
+    }
+    
     # Generate email based on category
-    if category == "meeting":
-        return generate_meeting_email()
-    elif category == "intro":
-        return generate_intro_email()
-    elif category == "promotion":
-        return generate_promotion_email()
-    elif category == "report":
-        return generate_report_email()
-    elif category == "support":
-        return generate_support_email()
-    elif category == "security":
-        return generate_security_email()
+    if category in category_functions:
+        return category_functions[category]()
     else:
-        # Default to one of the implemented categories
-        implemented = ["meeting", "intro", "promotion", "report", "support", "security"]
-        return generate_email(random.choice(implemented))
+        # Default to a random implemented category
+        implemented = list(category_functions.keys())
+        return category_functions[random.choice(implemented)]()
 
 def generate_email_batch(count=10, categories=None) -> List[Dict[str, str]]:
     """Generate a batch of random emails, optionally from specific categories"""
