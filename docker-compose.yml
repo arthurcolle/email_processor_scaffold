@@ -1,17 +1,41 @@
-version: "3.8"
 
 services:
   app:
     build: .
     ports:
-      - "8000:8000"
+      - "8005:8005"
     volumes:
       - .:/app
+      - sqlite_data:/app/data
     environment:
       - REDIS_HOST=redis
       - REDIS_PORT=6379
+      - DATABASE_URL=sqlite:////app/data/emails.db
+      - FAKEMAIL_API_URL=${FAKEMAIL_API_URL:-http://localhost:8005/simulator}
+      - PROCESSOR_WORKER_COUNT=${PROCESSOR_WORKER_COUNT:-3}
+      - PROCESSOR_MAX_RETRIES=${PROCESSOR_MAX_RETRIES:-3}
+      - PROCESSOR_RETRY_DELAY_MS=${PROCESSOR_RETRY_DELAY_MS:-1000}
+      - LOG_LEVEL=${LOG_LEVEL:-INFO}
     depends_on:
       - redis
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8005/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+      start_period: 5s
+
+  db-init:
+    build: .
+    volumes:
+      - .:/app
+      - sqlite_data:/app/data
+    environment:
+      - DATABASE_URL=sqlite:////app/data/emails.db
+    command: ["python", "/app/init_db.py"]
+    depends_on:
+      app:
+        condition: service_healthy
 
   redis:
     image: redis:7.2-alpine
@@ -19,6 +43,8 @@ services:
       - "6379:6379"
     volumes:
       - redis_data:/data
+    command: ["redis-server", "--appendonly", "yes"]
 
 volumes:
-  redis_data: 
+  redis_data:
+  sqlite_data:
