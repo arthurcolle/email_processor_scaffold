@@ -44,7 +44,8 @@ logging.basicConfig(
 logger = logging.getLogger('spamassassin_classifier')
 
 # Constants
-DATA_DIR = Path("/Users/agent/email_processor_scaffold/data")
+# Use relative path from script location
+DATA_DIR = Path(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))) / "data"
 SPAMASSASSIN_DIR = DATA_DIR / "spamassassin"
 SAMPLE_DIR = SPAMASSASSIN_DIR / "samples"
 DEFAULT_MODEL_PATH = DATA_DIR / "models" / "email_ensemble_model.joblib"

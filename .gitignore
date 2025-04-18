@@ -35,3 +35,22 @@ logs/
 .DS_Store
 Thumbs.db
 .aider*
+
+# Data directories and files
+data/
+!data/.gitkeep
+
+# Large model files
+*.joblib
+*.pkl
+*.h5
+*.model
+*.bin
+
+# Downloaded datasets
+*.tar.bz2
+*.tar.gz
+*.zip
+
+# Generated results that are too large
+*_report.html

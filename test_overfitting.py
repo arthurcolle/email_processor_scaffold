@@ -187,7 +187,8 @@ if __name__ == "__main__":
     import argparse
     
     parser = argparse.ArgumentParser(description="Test the email classifier for overfitting")
-    parser.add_argument("--dataset", type=str, default="data/datasets/email_dataset_12480.json", 
+    parser.add_argument("--dataset", type=str, 
+                      default=os.path.join("data", "datasets", "email_dataset_12480.json"), 
                       help="Path to the dataset JSON file")
     parser.add_argument("--samples", type=int, default=None, 
                       help="Number of samples to use (None for all)")

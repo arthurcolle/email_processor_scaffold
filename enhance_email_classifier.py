@@ -36,6 +36,13 @@ TAXONOMY_DIR = os.path.join(DATA_DIR, "taxonomy")
 PLOTS_DIR = os.path.join(DATA_DIR, "plots")
 BENCHMARK_DIR = os.path.join(DATA_DIR, "benchmark")
 
+# Ensure directories exist
+os.makedirs(DATA_DIR, exist_ok=True)
+os.makedirs(ENRON_DIR, exist_ok=True)
+os.makedirs(TAXONOMY_DIR, exist_ok=True)
+os.makedirs(PLOTS_DIR, exist_ok=True)
+os.makedirs(BENCHMARK_DIR, exist_ok=True)
+
 # Script paths
 TAXONOMY_SCRIPT = os.path.join(ROOT_DIR, "scripts", "enhanced_taxonomy.py")
 PROCESSOR_SCRIPT = os.path.join(ROOT_DIR, "scripts", "enhanced_enron_processor.py")

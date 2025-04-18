@@ -49,7 +49,8 @@ logger = logging.getLogger('spamassassin_processor')
 SPAMASSASSIN_BASE_URL = "https://spamassassin.apache.org/old/publiccorpus/"
 SPAM_ARCHIVES = ["20021010_spam.tar.bz2", "20030228_spam.tar.bz2", "20030228_spam_2.tar.bz2"]
 HAM_ARCHIVES = ["20021010_easy_ham.tar.bz2", "20021010_hard_ham.tar.bz2", "20030228_easy_ham.tar.bz2", "20030228_easy_ham_2.tar.bz2"]
-DATA_DIR = Path("/Users/agent/email_processor_scaffold/data/spamassassin")
+# Use relative path from script location
+DATA_DIR = Path(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))) / "data" / "spamassassin"
 PROCESSED_DIR = DATA_DIR / "processed"
 SAMPLE_DIR = DATA_DIR / "samples"
 EMAIL_PARSER = email.parser.BytesParser(policy=email.policy.default)
